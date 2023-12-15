@@ -49,7 +49,7 @@ extension HomeViewController {
     }
     @objc private func tappedAddCategoryButton() {
         AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
-            if let categoryName = categoryName {
+            if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 self.viewModel.categories.append(categoryName)
                 self.screen?.categoriesTableView.reloadData()
                 DispatchQueue.main.async {

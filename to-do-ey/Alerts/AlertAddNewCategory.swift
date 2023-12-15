@@ -17,20 +17,20 @@ class AlertAddNewCategory {
     public func showAlert(title: String, completion: @escaping (String?) -> Void) {
         let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
         
-        alertController.addTextField { textField in
-            textField.placeholder = "Choose a name for it"
-        }
-        
         let addAction = UIAlertAction(title: "Add", style: .default) { _ in
             let textField = alertController.textFields?.first
             completion(textField?.text)
+        }
+        
+        alertController.addTextField { textField in
+            textField.placeholder = "Choose a name for it"
         }
 
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         alertController.addAction(addAction)
         alertController.addAction(cancelAction)
-        
+
         controller.present(alertController, animated: true)
     }
 }
