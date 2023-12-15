@@ -38,13 +38,25 @@ extension HomeViewController {
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .systemBlue.withAlphaComponent(0.6)
         appearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white,
-                                          NSAttributedString.Key.font : UIFont.systemFont(ofSize: 22, weight: .bold)]
+                                          NSAttributedString.Key.font : UIFont.systemFont(ofSize: 24, weight: .bold)]
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.tintColor = .white
         navigationItem.hidesBackButton = true
         navigationItem.title = "Todoey"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(tappedAddCategoryButton))
+    }
+    @objc private func tappedAddCategoryButton() {
+        AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
+            if let categoryName = categoryName {
+                self.viewModel.categories.append(categoryName)
+                self.screen?.categoriesTableView.reloadData()
+                DispatchQueue.main.async {
+                    self.screen?.categoriesTableView.reloadData()
+                }
+            }
+        }
     }
 }
 
@@ -56,6 +68,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
         cell?.setupCell(category: viewModel.getCategory[indexPath.row])
+        cell?.selectionStyle = .none
         return cell ?? UITableViewCell()
     }
     
@@ -64,6 +77,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //
+        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

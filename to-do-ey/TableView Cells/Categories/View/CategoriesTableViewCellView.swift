@@ -19,7 +19,7 @@ class CategoriesTableViewCellView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = .lightGray.withAlphaComponent(0.5)
         layer.cornerRadius = 10
         clipsToBounds = true
         addElements()

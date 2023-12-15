@@ -15,7 +15,6 @@ class HomeView: UIView {
         tableview.showsVerticalScrollIndicator = false
         tableview.separatorStyle = .none
         tableview.backgroundColor = .white
-        tableview.allowsSelection = false
         tableview.contentInset = UIEdgeInsets(top: 10.0, left: 0, bottom: 10.0, right: 0)
         tableview.register(CategoriesTableViewCell.self, forCellReuseIdentifier: CategoriesTableViewCell.identifier)
         return tableview

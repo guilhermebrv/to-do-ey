@@ -16,10 +16,10 @@ class HomeViewModel {
     }
     
     public var numberOfRowsInSection: Int {
-        return 5
+        return categories.count
     }
     
     public var heightForRowAt: CGFloat {
-        return 80
+        return 100
     }
 }
