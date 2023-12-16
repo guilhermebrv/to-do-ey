@@ -9,6 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    let defaults = UserDefaults.standard
     private var screen: HomeView?
     private var viewModel: HomeViewModel = HomeViewModel()
     
@@ -51,7 +52,7 @@ extension HomeViewController {
         AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
             if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 self.viewModel.categories.append(categoryName)
-                self.screen?.categoriesTableView.reloadData()
+                self.viewModel.saveUserData()
                 DispatchQueue.main.async {
                     self.screen?.categoriesTableView.reloadData()
                 }
@@ -67,7 +68,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
-        cell?.setupCell(category: viewModel.getCategory[indexPath.row])
+        cell?.setupCell(category: viewModel.getCategory()[indexPath.row])
         cell?.selectionStyle = .none
         return cell ?? UITableViewCell()
     }
