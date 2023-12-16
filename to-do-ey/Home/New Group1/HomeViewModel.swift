@@ -11,21 +11,21 @@ class HomeViewModel {
     
     let defaults = UserDefaults.standard
     
-    var categories: [String] = ["Teste1", "Teste2", "Teste3", "Teste4", "Teste5"]
+    var categories: [Item] = [Item]()
     
     public func saveUserData() {
         defaults.set(categories, forKey: "TodoListArray")
     }
     
-    public func getCategory() -> [String] {
-        if let categories = defaults.array(forKey: "TodoListArray") as? [String] {
+    public func getCategory() -> [Item] {
+        if let categories = defaults.array(forKey: "TodoListArray") as? [Item] {
             return categories
         }
         return categories
     }
     
     public var numberOfRowsInSection: Int {
-        return defaults.array(forKey: "TodoListArray")?.count ?? 5
+        return defaults.array(forKey: "TodoListArray")?.count ?? 0
     }
     
     public var heightForRowAt: CGFloat {

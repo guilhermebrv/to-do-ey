@@ -51,7 +51,7 @@ extension HomeViewController {
     @objc private func tappedAddCategoryButton() {
         AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
             if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                self.viewModel.categories.append(categoryName)
+                self.viewModel.categories.append(Item(name: categoryName, checked: false))
                 self.viewModel.saveUserData()
                 DispatchQueue.main.async {
                     self.screen?.categoriesTableView.reloadData()
@@ -78,11 +78,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
+        if !viewModel.categories[indexPath.row].checked {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+            viewModel.categories[indexPath.row].checked = true
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
+            viewModel.categories[indexPath.row].checked = false
         }
+        tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

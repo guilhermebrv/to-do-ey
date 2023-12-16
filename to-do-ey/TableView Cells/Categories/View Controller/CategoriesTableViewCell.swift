@@ -26,8 +26,8 @@ class CategoriesTableViewCell: UITableViewCell {
         screen.pin(to: contentView)
     }
     
-    public func setupCell(category: String) {
-        screen.categoryLabel.text = category
+    public func setupCell(category: Item) {
+        screen.categoryLabel.text = category.name
     }
 
 }
