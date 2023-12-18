@@ -6,23 +6,22 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeViewModel {
     
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
-    
-    var categories: [Item] = [Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false)]
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var categories: [Item] = [Item]()
     
     public func saveUserData() {
-        let encoder = PropertyListEncoder()
         do {
-            let data = try encoder.encode(categories)
-            try data.write(to: dataFilePath!)
+            try context.save()
         } catch {
-            print("error encoding data - \(error.localizedDescription)")
+            print("error saving context - \(error.localizedDescription)")
         }
     }
-    
+    /*
     public func getCategory() -> [Item] {
         if let data = try? Data(contentsOf: dataFilePath!) {
             let decoder = PropertyListDecoder()
@@ -34,10 +33,11 @@ class HomeViewModel {
             }
         }
         return [Item]()
-    }
+    }*/
     
     public var numberOfRowsInSection: Int {
-        return getCategory().count
+        return categories.count 
+        //getCategory().count
     }
     
     public var heightForRowAt: CGFloat {

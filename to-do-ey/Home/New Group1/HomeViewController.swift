@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class HomeViewController: UIViewController {
     
@@ -51,7 +52,11 @@ extension HomeViewController {
     @objc private func tappedAddCategoryButton() {
         AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
             if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                self.viewModel.categories.append(Item(name: categoryName, checked: false))
+                let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                let itemToSave = Item(context: context)
+                itemToSave.name = categoryName
+                itemToSave.checked = false
+                self.viewModel.categories.append(itemToSave)
                 self.viewModel.saveUserData()
                 DispatchQueue.main.async {
                     self.screen?.categoriesTableView.reloadData()
@@ -68,7 +73,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
-        let category =  viewModel.getCategory()[indexPath.row]
+        let category =  viewModel.categories[indexPath.row] //getCategory()[indexPath.row]
         cell?.setupCell(category: category)
         cell?.selectionStyle = .none
         cell?.accessoryType = category.checked ? .checkmark : .none
