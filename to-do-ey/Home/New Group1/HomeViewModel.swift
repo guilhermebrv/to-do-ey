@@ -9,27 +9,38 @@ import UIKit
 
 class HomeViewModel {
     
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     
     var categories: [Item] = [Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false),Item(name: "teste", checked: false)]
     
     public func saveUserData() {
-        defaults.set(categories, forKey: "TodoListArray")
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(categories)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print("error encoding data - \(error.localizedDescription)")
+        }
     }
     
     public func getCategory() -> [Item] {
-        //if let categories = defaults.array(forKey: "TodoListArray") as? [Item] {
-        //    return categories
-        //}
-        return categories
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                categories = try decoder.decode([Item].self, from: data)
+                return categories
+            } catch {
+                print("error decoding data - \(error.localizedDescription)")
+            }
+        }
+        return [Item]()
     }
     
     public var numberOfRowsInSection: Int {
-        //return defaults.array(forKey: "TodoListArray")?.count ?? 0
-        return categories.count
+        return getCategory().count
     }
     
     public var heightForRowAt: CGFloat {
-        return 100
+        return 80
     }
 }
