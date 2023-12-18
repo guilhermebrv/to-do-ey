@@ -68,8 +68,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
-        cell?.setupCell(category: viewModel.getCategory()[indexPath.row])
+        let category =  viewModel.getCategory()[indexPath.row]
+        cell?.setupCell(category: category)
         cell?.selectionStyle = .none
+        cell?.accessoryType = category.checked ? .checkmark : .none
         return cell ?? UITableViewCell()
     }
     
@@ -78,13 +80,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !viewModel.categories[indexPath.row].checked {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-            viewModel.categories[indexPath.row].checked = true
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-            viewModel.categories[indexPath.row].checked = false
-        }
+        viewModel.categories[indexPath.row].checked.toggle()
+        viewModel.saveUserData()
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)
     }
