@@ -10,7 +10,7 @@ import CoreData
 
 class HomeViewController: UIViewController {
     
-    let defaults = UserDefaults.standard
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var screen: HomeView?
     private var viewModel: HomeViewModel = HomeViewModel()
     
@@ -34,6 +34,7 @@ extension HomeViewController {
     private func signProtocols() {
         screen?.categoriesTableView.delegate = self
         screen?.categoriesTableView.dataSource = self
+        screen?.searchBar.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -52,8 +53,7 @@ extension HomeViewController {
     @objc private func tappedAddCategoryButton() {
         AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
             if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                let itemToSave = Item(context: context)
+                let itemToSave = Item(context: self.context)
                 itemToSave.name = categoryName
                 itemToSave.checked = false
                 self.viewModel.categories.append(itemToSave)
@@ -66,6 +66,10 @@ extension HomeViewController {
     }
 }
 
+extension HomeViewController: UISearchBarDelegate {
+    
+}
+
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRowsInSection
@@ -73,7 +77,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
-        let category =  viewModel.categories[indexPath.row] //getCategory()[indexPath.row]
+        let category =  viewModel.readData()[indexPath.row]
         cell?.setupCell(category: category)
         cell?.selectionStyle = .none
         cell?.accessoryType = category.checked ? .checkmark : .none
@@ -85,6 +89,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //context.delete(viewModel.categories[indexPath.row])
+        //viewModel.categories.remove(at: indexPath.row)
         viewModel.categories[indexPath.row].checked.toggle()
         viewModel.saveUserData()
         tableView.reloadData()

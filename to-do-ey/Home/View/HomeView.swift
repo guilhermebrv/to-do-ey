@@ -19,6 +19,19 @@ class HomeView: UIView {
         tableview.register(CategoriesTableViewCell.self, forCellReuseIdentifier: CategoriesTableViewCell.identifier)
         return tableview
     }()
+    
+    lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.clipsToBounds = true
+        searchBar.layer.cornerRadius = 20
+        searchBar.searchBarStyle = .minimal
+        searchBar.barStyle = .black
+        searchBar.tintColor = .darkGray
+        searchBar.searchTextField.leftView?.tintColor = .black.withAlphaComponent(0.5)
+        searchBar.placeholder = "Search for a task:"
+        return searchBar
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,12 +45,17 @@ class HomeView: UIView {
     }
     
     private func addElements() {
+        addSubview(searchBar)
         addSubview(categoriesTableView)
     }
     
     private func configConstraints() {
         NSLayoutConstraint.activate([
-            categoriesTableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
+            searchBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            searchBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            
+            categoriesTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             categoriesTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             categoriesTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
             categoriesTableView.bottomAnchor.constraint(equalTo: bottomAnchor)

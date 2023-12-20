@@ -21,23 +21,19 @@ class HomeViewModel {
             print("error saving context - \(error.localizedDescription)")
         }
     }
-    /*
-    public func getCategory() -> [Item] {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                categories = try decoder.decode([Item].self, from: data)
-                return categories
-            } catch {
-                print("error decoding data - \(error.localizedDescription)")
-            }
+    
+    public func readData() -> [Item] {
+        let request: NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            categories = try context.fetch(request)
+        } catch {
+            print("error fetching data from context - \(error.localizedDescription)")
         }
-        return [Item]()
-    }*/
+        return categories
+    }
     
     public var numberOfRowsInSection: Int {
-        return categories.count 
-        //getCategory().count
+        return readData().count 
     }
     
     public var heightForRowAt: CGFloat {
