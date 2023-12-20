@@ -13,6 +13,7 @@ class HomeViewModel {
     let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var categories: [Item] = [Item]()
+    var filterCategories: [Item] = [Item]()
     
     public func saveUserData() {
         do {
@@ -29,11 +30,26 @@ class HomeViewModel {
         } catch {
             print("error fetching data from context - \(error.localizedDescription)")
         }
+        filterCategories = categories
         return categories
     }
+
+    public func filterSearchText(text: String) {
+        if text.isEmpty == true {
+            filterCategories = categories
+        } else {
+            filterCategories = categories.filter({ category in
+                return category.name?.lowercased().contains(text.lowercased()) ?? false
+            })
+        }
+    }
     
-    public var numberOfRowsInSection: Int {
-        return readData().count 
+    public func numberOfRowsInSection(filtering: Bool) -> Int {
+        if filtering {
+            return filterCategories.count
+        } else {
+            return readData().count
+        }
     }
     
     public var heightForRowAt: CGFloat {

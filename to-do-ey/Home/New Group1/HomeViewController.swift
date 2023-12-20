@@ -50,6 +50,7 @@ extension HomeViewController {
         navigationItem.title = "Todoey"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(tappedAddCategoryButton))
     }
+    
     @objc private func tappedAddCategoryButton() {
         AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
             if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
@@ -66,20 +67,38 @@ extension HomeViewController {
     }
 }
 
+// MARK: SEARCH BAR METHODS
 extension HomeViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.filterSearchText(text: searchText)
+        screen?.categoriesTableView.reloadData()
+    }
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
 }
 
+// MARK: TABLE VIEW METHODS
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.numberOfRowsInSection
+        if screen?.searchBar.text != "" {
+            return viewModel.numberOfRowsInSection(filtering: true)
+        }
+        return viewModel.numberOfRowsInSection(filtering: false)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
+        cell?.selectionStyle = .none
+        if screen?.searchBar.text != "" {
+            let category = viewModel.filterCategories[indexPath.row]
+            cell?.setupCell(category: category)
+            cell?.accessoryType = category.checked ? .checkmark : .none
+            return cell ?? UITableViewCell()
+        }
         let category =  viewModel.readData()[indexPath.row]
         cell?.setupCell(category: category)
-        cell?.selectionStyle = .none
         cell?.accessoryType = category.checked ? .checkmark : .none
         return cell ?? UITableViewCell()
     }
