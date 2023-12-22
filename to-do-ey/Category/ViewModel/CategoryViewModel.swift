@@ -1,19 +1,18 @@
 //
-//  HomeViewModel.swift
+//  CategoryViewModel.swift
 //  to-do-ey
 //
-//  Created by Guilherme Viana on 14/12/2023.
+//  Created by Guilherme Viana on 22/12/2023.
 //
 
 import UIKit
 import CoreData
 
-class HomeViewModel {
+class CategoryViewModel: NSObject {
     
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var categories: [Item] = [Item]()
-    var filterCategories: [Item] = [Item]()
+    public var categories: [Category] = [Category]()
+    public var filterCategories: [Category] = [Category]()
     
     public func saveUserData() {
         do {
@@ -23,8 +22,8 @@ class HomeViewModel {
         }
     }
     
-    public func readData() -> [Item] {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
+    public func readData() -> [Category] {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
         do {
             categories = try context.fetch(request)
         } catch {
@@ -33,7 +32,7 @@ class HomeViewModel {
         filterCategories = categories
         return categories
     }
-
+    
     public func filterSearchText(text: String) {
         if text.isEmpty == true {
             filterCategories = categories

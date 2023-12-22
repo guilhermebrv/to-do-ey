@@ -1,14 +1,14 @@
 //
-//  HomeView.swift
+//  CategoryView.swift
 //  to-do-ey
 //
-//  Created by Guilherme Viana on 14/12/2023.
+//  Created by Guilherme Viana on 20/12/2023.
 //
 
 import UIKit
 
-class HomeView: UIView {
-    
+class CategoryView: UIView {
+
     lazy var categoriesTableView: UITableView = {
         let tableview = UITableView()
         tableview.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +29,7 @@ class HomeView: UIView {
         searchBar.barStyle = .black
         searchBar.tintColor = .darkGray
         searchBar.searchTextField.leftView?.tintColor = .black.withAlphaComponent(0.5)
-        searchBar.placeholder = "Search for a task:"
+        searchBar.placeholder = "Search for a category:"
         return searchBar
     }()
 
