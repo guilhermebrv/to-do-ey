@@ -24,6 +24,7 @@ class ItemsViewModel {
     
     public func readData() -> [Item] {
         let request: NSFetchRequest<Item> = Item.fetchRequest()
+                
         do {
             items = try context.fetch(request)
         } catch {

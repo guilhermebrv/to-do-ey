@@ -12,10 +12,10 @@ class ItemsViewController: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var screen: ItemsView?
-    private var category: String
+    private var category: Category
     private var viewModel: ItemsViewModel = ItemsViewModel()
     
-    init(category: String) {
+    init(category: Category) {
         self.category = category
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,7 +50,7 @@ extension ItemsViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.title = "\(category)"
+        navigationItem.title = category.name
         navigationController?.navigationBar.topItem?.backButtonDisplayMode = .minimal
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(tappedAddItemButton))
     }
@@ -61,6 +61,7 @@ extension ItemsViewController {
                 let itemToSave = Item(context: self.context)
                 itemToSave.title = itemName
                 itemToSave.checked = false
+                itemToSave.parentCategory = self.category
                 self.viewModel.items.append(itemToSave)
                 self.viewModel.saveUserData()
                 DispatchQueue.main.async {
@@ -89,24 +90,31 @@ extension ItemsViewController: UISearchBarDelegate {
 // MARK: TABLE VIEW METHODS
 extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if screen?.searchBar.text != "" {
+        let indexPath = tableView.indexPathForSelectedRow
+        if let index = indexPath?.row, screen?.searchBar.text != "" && category == viewModel.filterItems[index].parentCategory {
             return viewModel.numberOfRowsInSection(filtering: true)
+        } else if viewModel.readData()[indexPath?.row ?? 0].parentCategory == category {
+            return viewModel.numberOfRowsInSection(filtering: false)
         }
-        return viewModel.numberOfRowsInSection(filtering: false)
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
         cell?.selectionStyle = .none
-        if screen?.searchBar.text != "" {
+        
+        if indexPath.row < viewModel.filterItems.count - 1 && screen?.searchBar.text != "" && category == viewModel.filterItems[indexPath.row].parentCategory {
             let item = viewModel.filterItems[indexPath.row]
             cell?.setupItemCell(itemType: item)
             cell?.accessoryType = item.checked ? .checkmark : .none
             return cell ?? UITableViewCell()
         }
-        let item =  viewModel.readData()[indexPath.row]
-        cell?.setupItemCell(itemType: item)
-        cell?.accessoryType = item.checked ? .checkmark : .none
+        if viewModel.readData()[indexPath.row].parentCategory == category && viewModel.filterItems.count != viewModel.items.count {
+            let item = viewModel.readData()[indexPath.row]
+            cell?.setupItemCell(itemType: item)
+            cell?.accessoryType = item.checked ? .checkmark : .none
+        }
+        
         return cell ?? UITableViewCell()
     }
     

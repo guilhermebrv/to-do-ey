@@ -106,7 +106,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = ItemsViewController(category: viewModel.readData()[indexPath.row].name ?? "")
+        let item = ItemsViewController(category: viewModel.categories[indexPath.row])
         navigationController?.pushViewController(item, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
         //context.delete(viewModel.categories[indexPath.row])
