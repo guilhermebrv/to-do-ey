@@ -12,7 +12,17 @@ class ItemsViewController: UIViewController {
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     private var screen: ItemsView?
+    private var category: String
     private var viewModel: ItemsViewModel = ItemsViewModel()
+    
+    init(category: String) {
+        self.category = category
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         screen = ItemsView()
@@ -40,13 +50,13 @@ extension ItemsViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.title = "Todoey"
+        navigationItem.title = "\(category)"
         navigationController?.navigationBar.topItem?.backButtonDisplayMode = .minimal
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(tappedAddItemButton))
     }
     
     @objc private func tappedAddItemButton() {
-        AlertAddNewCategory(controller: self).showAlert(title: "Enter a new item:") { itemName in
+        AlertAddNew(controller: self).showAlert(title: "Enter a new item:") { itemName in
             if let itemName = itemName, !itemName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 let itemToSave = Item(context: self.context)
                 itemToSave.title = itemName

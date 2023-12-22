@@ -1,5 +1,5 @@
 //
-//  AlertAddNewCategory.swift
+//  AlertAddNew.swift
 //  to-do-ey
 //
 //  Created by Guilherme Viana on 15/12/2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AlertAddNewCategory {
+class AlertAddNew {
     private let controller: UIViewController
     
     init(controller: UIViewController) {

@@ -22,7 +22,7 @@
 		2BC3BE9C2B2A02A400EB0654 /* ItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC3BE9B2B2A02A400EB0654 /* ItemsViewController.swift */; };
 		2BC3BEA12B2A02A700EB0654 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BC3BEA02B2A02A700EB0654 /* Assets.xcassets */; };
 		2BC3BEA42B2A02A700EB0654 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC3BEA22B2A02A700EB0654 /* LaunchScreen.storyboard */; };
-		2BC6A2252B2CCF8A00C2D442 /* AlertAddNewCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A2242B2CCF8A00C2D442 /* AlertAddNewCategory.swift */; };
+		2BC6A2252B2CCF8A00C2D442 /* AlertAddNew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC6A2242B2CCF8A00C2D442 /* AlertAddNew.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,7 @@
 		2BC3BEA02B2A02A700EB0654 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BC3BEA32B2A02A700EB0654 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2BC3BEA52B2A02A700EB0654 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2BC6A2242B2CCF8A00C2D442 /* AlertAddNewCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAddNewCategory.swift; sourceTree = "<group>"; };
+		2BC6A2242B2CCF8A00C2D442 /* AlertAddNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAddNew.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,7 +215,7 @@
 		2BC6A2232B2CCF7900C2D442 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
-				2BC6A2242B2CCF8A00C2D442 /* AlertAddNewCategory.swift */,
+				2BC6A2242B2CCF8A00C2D442 /* AlertAddNew.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -305,7 +305,7 @@
 				2BC3BE9C2B2A02A400EB0654 /* ItemsViewController.swift in Sources */,
 				2B6CF5EA2B2B582600B036A2 /* ItemsView.swift in Sources */,
 				2BC3BE982B2A02A400EB0654 /* AppDelegate.swift in Sources */,
-				2BC6A2252B2CCF8A00C2D442 /* AlertAddNewCategory.swift in Sources */,
+				2BC6A2252B2CCF8A00C2D442 /* AlertAddNew.swift in Sources */,
 				2B6CF5FA2B2B69D900B036A2 /* Extension + UIView.swift in Sources */,
 				2B6CF5EC2B2B5B1200B036A2 /* ItemsViewModel.swift in Sources */,
 				2B6CF5F72B2B674500B036A2 /* CategoriesTableViewCell.swift in Sources */,

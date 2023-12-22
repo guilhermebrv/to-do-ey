@@ -29,7 +29,6 @@ class CategoryViewModel: NSObject {
         } catch {
             print("error fetching data from context - \(error.localizedDescription)")
         }
-        filterCategories = categories
         return categories
     }
     

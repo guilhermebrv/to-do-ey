@@ -47,12 +47,12 @@ extension CategoryViewController {
         navigationController?.isNavigationBarHidden = false
         navigationController?.navigationBar.tintColor = .white
         navigationItem.hidesBackButton = true
-        navigationItem.title = "Todoey"
+        navigationItem.title = "Todoey ☑️"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(tappedAddCategoryButton))
     }
     
     @objc private func tappedAddCategoryButton() {
-        AlertAddNewCategory(controller: self).showAlert(title: "Enter a new category:") { categoryName in
+        AlertAddNew(controller: self).showAlert(title: "Enter a new category:") { categoryName in
             if let categoryName = categoryName, !categoryName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 let categoryToSave = Category(context: self.context)
                 categoryToSave.name = categoryName
@@ -96,7 +96,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.setupCategoryCell(itemType: category)
             return cell ?? UITableViewCell()
         }
-        let category =  viewModel.readData()[indexPath.row]
+        let category = viewModel.readData()[indexPath.row]
         cell?.setupCategoryCell(itemType: category)
         return cell ?? UITableViewCell()
     }
@@ -106,7 +106,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let item = ItemsViewController()
+        let item = ItemsViewController(category: viewModel.readData()[indexPath.row].name ?? "")
         navigationController?.pushViewController(item, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
         //context.delete(viewModel.categories[indexPath.row])

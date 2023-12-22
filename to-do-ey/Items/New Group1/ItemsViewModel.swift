@@ -29,7 +29,6 @@ class ItemsViewModel {
         } catch {
             print("error fetching data from context - \(error.localizedDescription)")
         }
-        filterItems = items
         return items
     }
 
