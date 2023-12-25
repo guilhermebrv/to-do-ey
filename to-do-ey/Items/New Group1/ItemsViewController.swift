@@ -90,26 +90,23 @@ extension ItemsViewController: UISearchBarDelegate {
 // MARK: TABLE VIEW METHODS
 extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let indexPath = tableView.indexPathForSelectedRow
-        if let index = indexPath?.row, screen?.searchBar.text != "" && category == viewModel.filterItems[index].parentCategory {
-            return viewModel.numberOfRowsInSection(filtering: true)
-        } else if viewModel.readData()[indexPath?.row ?? 0].parentCategory == category {
-            return viewModel.numberOfRowsInSection(filtering: false)
+        if screen?.searchBar.text != "" {
+            return viewModel.numberOfRowsInSection(filtering: true, parentCategory: category)
         }
-        return 0
+        return viewModel.numberOfRowsInSection(filtering: false, parentCategory: category)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoriesTableViewCell.identifier, for: indexPath) as? CategoriesTableViewCell
         cell?.selectionStyle = .none
         
-        if indexPath.row < viewModel.filterItems.count - 1 && screen?.searchBar.text != "" && category == viewModel.filterItems[indexPath.row].parentCategory {
+        if indexPath.row <= viewModel.filterItems.count - 1 && screen?.searchBar.text != "" && category == viewModel.filterItems[indexPath.row].parentCategory {
             let item = viewModel.filterItems[indexPath.row]
             cell?.setupItemCell(itemType: item)
             cell?.accessoryType = item.checked ? .checkmark : .none
             return cell ?? UITableViewCell()
         }
-        if viewModel.readData()[indexPath.row].parentCategory == category && viewModel.filterItems.count != viewModel.items.count {
+        if viewModel.readData()[indexPath.row].parentCategory == category {
             let item = viewModel.readData()[indexPath.row]
             cell?.setupItemCell(itemType: item)
             cell?.accessoryType = item.checked ? .checkmark : .none
@@ -125,7 +122,13 @@ extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //context.delete(viewModel.categories[indexPath.row])
         //viewModel.categories.remove(at: indexPath.row)
-        viewModel.items[indexPath.row].checked.toggle()
+        let selectedItem: Item
+        if let searchText = screen?.searchBar.text, !searchText.isEmpty {
+            selectedItem = viewModel.filterItems[indexPath.row]
+        } else {
+            selectedItem = viewModel.readData()[indexPath.row]
+        }
+        selectedItem.checked.toggle()
         viewModel.saveUserData()
         tableView.reloadData()
         tableView.deselectRow(at: indexPath, animated: true)

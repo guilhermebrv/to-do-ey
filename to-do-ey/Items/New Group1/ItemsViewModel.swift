@@ -43,11 +43,13 @@ class ItemsViewModel {
         }
     }
     
-    public func numberOfRowsInSection(filtering: Bool) -> Int {
+    public func numberOfRowsInSection(filtering: Bool, parentCategory: Category) -> Int {
         if filtering {
-            return filterItems.count
+            let filteredItemsCount = filterItems.filter{ $0.parentCategory == parentCategory }.count
+            return filteredItemsCount
         } else {
-            return readData().count
+            let count = readData().filter{ $0.parentCategory == parentCategory }.count
+            return count
         }
     }
     
