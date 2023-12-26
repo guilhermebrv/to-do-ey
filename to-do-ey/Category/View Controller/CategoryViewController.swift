@@ -96,7 +96,7 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.setupCategoryCell(itemType: category)
             return cell ?? UITableViewCell()
         }
-        let category = viewModel.readData()[indexPath.row]
+        let category = viewModel.readUserData()[indexPath.row]
         cell?.setupCategoryCell(itemType: category)
         return cell ?? UITableViewCell()
     }
@@ -106,9 +106,20 @@ extension CategoryViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCategory: ItemsViewController
+        if let searchText = screen?.searchBar.text, !searchText.isEmpty {
+            selectedCategory = ItemsViewController(category: viewModel.filterCategories[indexPath.row])
+        } else {
+            selectedCategory = ItemsViewController(category: viewModel.readUserData()[indexPath.row])
+        }
+        navigationController?.pushViewController(selectedCategory, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        /*
         let item = ItemsViewController(category: viewModel.categories[indexPath.row])
         navigationController?.pushViewController(item, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+         */
         //context.delete(viewModel.categories[indexPath.row])
         //viewModel.categories.remove(at: indexPath.row)
     }

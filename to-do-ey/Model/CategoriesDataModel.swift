@@ -1,5 +1,5 @@
 //
-//  DataModel.swift
+//  CategoriesDataModel.swift
 //  to-do-ey
 //
 //  Created by Guilherme Viana on 26/12/2023.
@@ -8,10 +8,10 @@
 import CoreData
 import UIKit
 
-class DataModel {
+class CategoriesDataModel {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
-    public func saveData(saving: [Item]) {
+    public func saveData(saving: [Category]) {
         do {
             try context.save()
         } catch {
@@ -19,15 +19,15 @@ class DataModel {
         }
     }
 
-    public func readData(initialItems: [Item]) -> [Item] {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-        var items = initialItems
+    public func readData(initialCategories: [Category]) -> [Category] {
+        let request: NSFetchRequest<Category> = Category.fetchRequest()
+        var categories = initialCategories
                 
         do {
-            items = try context.fetch(request)
+            categories = try context.fetch(request)
         } catch {
             print("error fetching data from context - \(error.localizedDescription)")
         }
-        return items
+        return categories
     }
 }

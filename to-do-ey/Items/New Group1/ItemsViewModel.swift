@@ -9,7 +9,7 @@ import Foundation
 
 class ItemsViewModel {
     
-    private let model: DataModel = DataModel()
+    private let model: ItemsDataModel = ItemsDataModel()
     public var items: [Item] = [Item]()
     public var filterItems: [Item] = [Item]()
     

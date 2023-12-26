@@ -119,8 +119,6 @@ extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //context.delete(viewModel.categories[indexPath.row])
-        //viewModel.categories.remove(at: indexPath.row)
         let selectedItem: Item
         if let searchText = screen?.searchBar.text, !searchText.isEmpty {
             selectedItem = viewModel.filterItems[indexPath.row]
