@@ -123,7 +123,7 @@ extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
         if let searchText = screen?.searchBar.text, !searchText.isEmpty {
             selectedItem = viewModel.filterItems[indexPath.row]
         } else {
-            selectedItem = viewModel.readUserData()[indexPath.row]
+            selectedItem = viewModel.readUserData().filter { $0.parentCategory == category } [indexPath.row]
         }
         selectedItem.checked.toggle()
         viewModel.saveUserData()

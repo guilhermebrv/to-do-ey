@@ -14,11 +14,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let data = RealmData()
+        data.age = 27
+        data.name = "Guilherme"
+        
         do {
             let realm = try Realm()
+            try realm.write {
+                realm.add(data)
+            }
         } catch {
             print("Error initializing new Realm, \(error.localizedDescription)")
         }
+        
         return true
     }
     
