@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 class ItemsViewController: UIViewController {
     
@@ -106,8 +105,8 @@ extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.accessoryType = item.checked ? .checkmark : .none
             return cell ?? UITableViewCell()
         }
-        if viewModel.readData()[indexPath.row].parentCategory == category {
-            let item = viewModel.readData()[indexPath.row]
+        if viewModel.readUserData()[indexPath.row].parentCategory == category {
+            let item = viewModel.readUserData()[indexPath.row]
             cell?.setupItemCell(itemType: item)
             cell?.accessoryType = item.checked ? .checkmark : .none
         }
@@ -126,7 +125,7 @@ extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
         if let searchText = screen?.searchBar.text, !searchText.isEmpty {
             selectedItem = viewModel.filterItems[indexPath.row]
         } else {
-            selectedItem = viewModel.readData()[indexPath.row]
+            selectedItem = viewModel.readUserData()[indexPath.row]
         }
         selectedItem.checked.toggle()
         viewModel.saveUserData()

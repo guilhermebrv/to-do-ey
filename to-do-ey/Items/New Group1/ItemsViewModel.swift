@@ -5,31 +5,20 @@
 //  Created by Guilherme Viana on 14/12/2023.
 //
 
-import UIKit
-import CoreData
+import Foundation
 
 class ItemsViewModel {
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var items: [Item] = [Item]()
-    var filterItems: [Item] = [Item]()
+    private let model: DataModel = DataModel()
+    public var items: [Item] = [Item]()
+    public var filterItems: [Item] = [Item]()
     
     public func saveUserData() {
-        do {
-            try context.save()
-        } catch {
-            print("error saving context - \(error.localizedDescription)")
-        }
+        model.saveData(saving: items)
     }
     
-    public func readData() -> [Item] {
-        let request: NSFetchRequest<Item> = Item.fetchRequest()
-                
-        do {
-            items = try context.fetch(request)
-        } catch {
-            print("error fetching data from context - \(error.localizedDescription)")
-        }
+    public func readUserData() -> [Item] {
+        items = model.readData(initialItems: items)
         return items
     }
 
@@ -48,7 +37,7 @@ class ItemsViewModel {
             let filteredItemsCount = filterItems.filter{ $0.parentCategory == parentCategory }.count
             return filteredItemsCount
         } else {
-            let count = readData().filter{ $0.parentCategory == parentCategory }.count
+            let count = readUserData().filter{ $0.parentCategory == parentCategory }.count
             return count
         }
     }
