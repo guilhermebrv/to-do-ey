@@ -104,9 +104,9 @@ extension ItemsViewController: UITableViewDelegate, UITableViewDataSource {
             cell?.setupItemCell(itemType: item)
             cell?.accessoryType = item.checked ? .checkmark : .none
             return cell ?? UITableViewCell()
-        }
-        if viewModel.readUserData()[indexPath.row].parentCategory == category {
-            let item = viewModel.readUserData()[indexPath.row]
+        } else {
+            let items = viewModel.readUserData().filter { $0.parentCategory == category }
+            let item = items[indexPath.row]
             cell?.setupItemCell(itemType: item)
             cell?.accessoryType = item.checked ? .checkmark : .none
         }

@@ -27,6 +27,7 @@
 		2BFDAD102B3ADC000023B31D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 2BFDAD0F2B3ADC000023B31D /* RealmSwift */; };
 		2BFDAD122B3ADE7D0023B31D /* ItemsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFDAD112B3ADE7D0023B31D /* ItemsDataModel.swift */; };
 		2BFDAD142B3AEB3C0023B31D /* CategoriesDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFDAD132B3AEB3B0023B31D /* CategoriesDataModel.swift */; };
+		2BFDAD172B3AEFE90023B31D /* RealmData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFDAD162B3AEFE90023B31D /* RealmData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		2BC6A2242B2CCF8A00C2D442 /* AlertAddNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAddNew.swift; sourceTree = "<group>"; };
 		2BFDAD112B3ADE7D0023B31D /* ItemsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsDataModel.swift; sourceTree = "<group>"; };
 		2BFDAD132B3AEB3B0023B31D /* CategoriesDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesDataModel.swift; sourceTree = "<group>"; };
+		2BFDAD162B3AEFE90023B31D /* RealmData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 				2BAD55872B309C7800CC0598 /* CoreDataModel.xcdatamodeld */,
 				2BFDAD112B3ADE7D0023B31D /* ItemsDataModel.swift */,
 				2BFDAD132B3AEB3B0023B31D /* CategoriesDataModel.swift */,
+				2BFDAD162B3AEFE90023B31D /* RealmData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				2B6CF5EA2B2B582600B036A2 /* ItemsView.swift in Sources */,
 				2BC3BE982B2A02A400EB0654 /* AppDelegate.swift in Sources */,
 				2BC6A2252B2CCF8A00C2D442 /* AlertAddNew.swift in Sources */,
+				2BFDAD172B3AEFE90023B31D /* RealmData.swift in Sources */,
 				2B6CF5FA2B2B69D900B036A2 /* Extension + UIView.swift in Sources */,
 				2B6CF5EC2B2B5B1200B036A2 /* ItemsViewModel.swift in Sources */,
 				2B6CF5F72B2B674500B036A2 /* CategoriesTableViewCell.swift in Sources */,
